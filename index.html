@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="dist/output.css" />
 
   <!-- Google Fonts (enhanced typography when online) -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;600;700;800&display=swap"
         rel="stylesheet" media="print" onload="this.media='all'" />
@@ -1125,13 +1126,16 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
 ════════════════════════════════════════════════════════ */
 (function initDarkMode() {
   const html = document.documentElement;
-  if (localStorage.theme === 'dark' ||
-      (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+  let storedTheme;
+  try { storedTheme = localStorage.getItem('theme'); } catch (_) { storedTheme = null; }
+  if (storedTheme === 'dark' ||
+      (storedTheme === null && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
     html.classList.add('dark');
   }
   document.getElementById('darkToggle').addEventListener('click', () => {
     html.classList.toggle('dark');
-    localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light';
+    const isDark = html.classList.contains('dark');
+    try { localStorage.setItem('theme', isDark ? 'dark' : 'light'); } catch (_) {}
     /* Re-render cards to update inline dark colors */
     const activeFilter = document.querySelector('.filter-btn.active');
     if (activeFilter) renderAchievements(activeFilter.dataset.filter);
@@ -1139,14 +1143,16 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
 })();
 
 /* ════════════════════════════════════════════════════════
-   STICKY NAV — glassmorphism on scroll
+   STICKY NAV — glassmorphism on scroll, respects theme
 ════════════════════════════════════════════════════════ */
 const mainNav = document.getElementById('mainNav');
 window.addEventListener('scroll', () => {
   if (window.scrollY > 60) {
+    const isDark = document.documentElement.classList.contains('dark');
+    const bgColor = isDark ? 'rgba(10,10,10,0.82)' : 'rgba(255,248,240,0.82)';
     mainNav.style.cssText =
-      'background: rgba(255,248,240,0.82); backdrop-filter: blur(18px); ' +
-      'box-shadow: 0 1px 0 rgba(0,0,0,0.06);';
+      `background:${bgColor};backdrop-filter:blur(18px);` +
+      'box-shadow:0 1px 0 rgba(0,0,0,0.06);';
   } else {
     mainNav.style.cssText = '';
   }
