@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arjun Nepal — Portfolio</title>
+
+  <!-- Local compiled Tailwind CSS (run: npm run build) -->
+  <link rel="stylesheet" href="dist/output.css" />
+
+  <!-- Google Fonts (enhanced typography when online) -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;600;700;800&display=swap"
+        rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  </noscript>
+
+  <style>
+    /* ── Custom scrollbar ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #F7B733; border-radius: 9999px; }
+
+    /* ── Scroll-reveal ── */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ── Gold shimmer text ── */
+    .shimmer-text {
+      background: linear-gradient(90deg, #F7B733 0%, #FFD97D 30%, #F7B733 60%, #D4920A 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 3s linear infinite;
+    }
+    @keyframes shimmer {
+      0%  { background-position: -200% center; }
+      100%{ background-position:  200% center; }
+    }
+
+    /* ── Ambient orbs ── */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.22;
+      pointer-events: none;
+    }
+
+    /* ── Floating animation ── */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-7px); }
+    }
+    .animate-float { animation: float 4s ease-in-out infinite; }
+
+    /* ── Pulse gold shadow ── */
+    @keyframes pulse-gold {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(247,183,51,0); }
+      50%       { box-shadow: 0 0 0 8px rgba(247,183,51,0.15); }
+    }
+    .animate-pulse-gold { animation: pulse-gold 3s ease-in-out infinite; }
+
+    /* ── Nav underline ── */
+    .nav-link { position: relative; transition: color 0.2s; }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0;
+      width: 0; height: 2px;
+      background: #F7B733;
+      border-radius: 999px;
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after { width: 100%; }
+
+    /* ── Section label ── */
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 14px;
+      background: rgba(247,183,51,0.12);
+      border: 1px solid rgba(247,183,51,0.3);
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #D4920A;
+    }
+    .dark .section-label { color: #F7B733; }
+
+    /* ── Skill pill ── */
+    .skill-pill {
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      background: white;
+      border: 1px solid #f0e8d8;
+      color: #555;
+      transition: all 0.22s;
+      cursor: default;
+    }
+    .dark .skill-pill { background: #1a1a1a; border-color: #2a2a2a; color: #aaa; }
+    .skill-pill:hover { background: #F7B733; border-color: #F7B733; color: #fff; transform: scale(1.05); }
+
+    /* ══════════════════════════════════════════════
+       ACHIEVEMENT CARDS
+    ══════════════════════════════════════════════ */
+    .ach-card {
+      position: relative;
+      background: #fff;
+      border: 1px solid #f0e8d8;
+      border-radius: 20px;
+      overflow: hidden;
+      transition: transform 0.32s cubic-bezier(.34,1.56,.64,1), box-shadow 0.32s ease;
+    }
+    .dark .ach-card { background: #111; border-color: #1e1e1e; }
+
+    .ach-card:hover {
+      transform: translateY(-7px) scale(1.005);
+      box-shadow: 0 22px 60px -10px rgba(247,183,51,0.2), 0 8px 24px -4px rgba(0,0,0,0.08);
+    }
+    .dark .ach-card:hover {
+      box-shadow: 0 22px 60px -10px rgba(247,183,51,0.25), 0 8px 24px -4px rgba(0,0,0,0.5);
+    }
+
+    /* Golden border shimmer on featured cards */
+    .ach-card.featured::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      padding: 1.5px;
+      background: linear-gradient(135deg, #F7B733 0%, #FFD97D 35%, #F7B733 65%, #D4920A 100%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .ach-card.featured { animation: pulse-gold 3s ease-in-out infinite; }
+
+    /* Left golden accent bar */
+    .ach-card .accent-bar {
+      position: absolute;
+      left: 0; top: 20px; bottom: 20px;
+      width: 3px;
+      background: linear-gradient(180deg, #F7B733, #D4920A);
+      border-radius: 0 2px 2px 0;
+    }
+
+    /* Image gallery */
+    .ach-images { display: grid; gap: 6px; border-radius: 12px; overflow: hidden; }
+    .ach-images.one-img { grid-template-columns: 1fr; }
+    .ach-images.two-img { grid-template-columns: 1fr 1fr; }
+    .ach-images img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+    .ach-card:hover .ach-images img { transform: scale(1.05); }
+
+    /* Type badge */
+    .type-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    /* Filter button active state */
+    .filter-btn.active {
+      background: #F7B733 !important;
+      color: white !important;
+      border-color: #F7B733 !important;
+    }
+
+    /* Project card */
+    .project-card {
+      border-radius: 20px;
+      overflow: hidden;
+      background: white;
+      border: 1px solid #f0e8d8;
+      transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+    }
+    .dark .project-card { background: #111; border-color: #1e1e1e; }
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 48px -8px rgba(0,0,0,0.1);
+      border-color: rgba(247,183,51,0.4);
+    }
+    .project-card:hover .project-img { transform: scale(1.05); }
+    .project-img { transition: transform 0.5s ease; }
+
+    /* Social icon button */
+    .social-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: white;
+      border: 1px solid #f0e8d8;
+      color: #888;
+      transition: all 0.22s;
+    }
+    .dark .social-btn { background: #111; border-color: #1e1e1e; }
+    .social-btn:hover { color: #F7B733; border-color: #F7B733; transform: scale(1.1); }
+
+    /* Stat card */
+    .stat-card {
+      text-align: center;
+      padding: 1rem;
+      border-radius: 16px;
+      background: white;
+      border: 1px solid #f0e8d8;
+    }
+    .dark .stat-card { background: #111; border-color: #1e1e1e; }
+
+    /* ── No results ── */
+    #noResults { display: none; }
+    #noResults.show { display: block; }
+  </style>
+</head>
+
+<body class="bg-[#FFF8F0] dark:bg-[#0a0a0a] text-gray-900 dark:text-gray-100 font-sans transition-colors duration-300">
+
+<!-- ══════════════════════════════════
+     NAVIGATION
+══════════════════════════════════ -->
+<header id="mainNav"
+        class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+  <nav class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+
+    <!-- Logo -->
+    <a href="#home"
+       class="font-display font-bold text-xl tracking-tight text-gray-900 dark:text-white">
+      A<span style="color:#F7B733">.</span>Nepal
+    </a>
+
+    <!-- Desktop nav links -->
+    <ul class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-500 dark:text-gray-400">
+      <li><a href="#about"        class="nav-link hover:text-gray-900 dark:hover:text-white">About</a></li>
+      <li><a href="#skills"       class="nav-link hover:text-gray-900 dark:hover:text-white">Skills</a></li>
+      <li><a href="#achievements" class="nav-link hover:text-gray-900 dark:hover:text-white">Achievements</a></li>
+      <li><a href="#projects"     class="nav-link hover:text-gray-900 dark:hover:text-white">Projects</a></li>
+      <li><a href="#contact"      class="nav-link hover:text-gray-900 dark:hover:text-white">Contact</a></li>
+    </ul>
+
+    <!-- Right actions -->
+    <div class="flex items-center gap-3">
+      <button id="darkToggle"
+              aria-label="Toggle dark mode"
+              class="p-2 rounded-full bg-white dark:bg-[#111] border border-gray-200 dark:border-[#1e1e1e]
+                     text-gray-500 dark:text-gray-400 hover:text-[#F7B733] transition-all hover:scale-110 shadow-sm">
+        <!-- Sun icon -->
+        <svg id="sunIcon"  class="hidden dark:block" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <!-- Moon icon -->
+        <svg id="moonIcon" class="dark:hidden" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <a href="#contact"
+         class="hidden md:inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold
+                text-white hover:opacity-90 transition-all hover:scale-105 shadow-md"
+         style="background:#F7B733; box-shadow: 0 4px 14px rgba(247,183,51,0.35)">
+        Hire Me
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  </nav>
+</header>
+
+
+<!-- ══════════════════════════════════
+     HERO
+══════════════════════════════════ -->
+<section id="home"
+         class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+  <!-- Ambient blobs -->
+  <div class="orb w-[420px] h-[420px]" style="background:#F7B733;top:-8%;right:-6%;"></div>
+  <div class="orb w-[320px] h-[320px] animate-float" style="background:#fbbf24;bottom:4%;left:-7%;animation-duration:6s;"></div>
+
+  <div class="max-w-5xl mx-auto px-6 text-center relative z-10">
+    <p class="section-label mb-6 mx-auto reveal">
+      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.88 5.76H20l-4.94 3.6 1.88 5.76L12 14.52l-4.94 3.6 1.88-5.76L4 8.76h6.12z"/></svg>
+      Full-Stack Developer &amp; Designer
+    </p>
+
+    <h1 class="font-display font-extrabold text-5xl sm:text-6xl md:text-7xl leading-tight tracking-tight mb-6 reveal reveal-delay-1">
+      Crafting digital<br />
+      <span class="shimmer-text">experiences</span> that<br />
+      leave a mark.
+    </h1>
+
+    <p class="text-gray-500 dark:text-gray-400 text-lg max-w-xl mx-auto mb-10 reveal reveal-delay-2">
+      I build clean, fast, and thoughtful products — from concept to deployment.
+      Currently open to exciting opportunities.
+    </p>
+
+    <div class="flex flex-wrap gap-4 justify-center reveal reveal-delay-3">
+      <a href="#achievements"
+         class="inline-flex items-center gap-2 px-7 py-3 rounded-full font-semibold text-white
+                transition-all hover:scale-105"
+         style="background:#F7B733; box-shadow:0 6px 20px rgba(247,183,51,0.4)">
+        View Achievements
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+      </a>
+      <a href="#projects"
+         class="inline-flex items-center gap-2 px-7 py-3 rounded-full font-semibold
+                bg-white dark:bg-[#111] border border-gray-200 dark:border-[#1e1e1e]
+                hover:border-[#F7B733] dark:hover:border-[#F7B733] transition-all hover:scale-105 shadow-sm">
+        See Projects
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="mt-20 flex flex-col items-center gap-2 text-gray-400 dark:text-gray-600 reveal reveal-delay-4">
+      <span class="text-xs tracking-widest uppercase">Scroll</span>
+      <div class="w-px h-10 animate-float" style="background: linear-gradient(to bottom, #F7B733, transparent);"></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+     ABOUT
+══════════════════════════════════ -->
+<section id="about" class="py-28 max-w-6xl mx-auto px-6">
+  <div class="grid md:grid-cols-2 gap-16 items-center">
+
+    <!-- Avatar -->
+    <div class="reveal flex justify-center md:justify-start">
+      <div class="relative w-72 h-72">
+        <div class="absolute inset-0 rounded-full scale-110 animate-pulse-gold"
+             style="border: 2px solid rgba(247,183,51,0.4);"></div>
+        <div class="w-full h-full rounded-full overflow-hidden shadow-2xl"
+             style="border: 4px solid white;">
+          <!-- Avatar placeholder (replace with real image) -->
+          <div class="w-full h-full flex items-center justify-center text-white font-display font-bold text-5xl"
+               style="background: linear-gradient(135deg, #F7B733, #D4920A);">
+            AN
+          </div>
+        </div>
+        <!-- Floating badge -->
+        <div class="absolute -bottom-2 -right-2 bg-white dark:bg-[#111] rounded-2xl px-4 py-2 shadow-lg
+                    border border-gray-100 dark:border-[#1e1e1e] flex items-center gap-2">
+          <span class="text-lg">🏆</span>
+          <div>
+            <p class="text-xs font-bold text-gray-900 dark:text-white">12+ Awards</p>
+            <p class="text-xs text-gray-400">Recognized</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Text content -->
+    <div>
+      <p class="section-label mb-4 reveal">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        About Me
+      </p>
+      <h2 class="font-display font-bold text-4xl mb-5 reveal reveal-delay-1">
+        Turning ideas into<br />
+        <span style="color:#F7B733">elegant reality.</span>
+      </h2>
+      <p class="text-gray-500 dark:text-gray-400 leading-relaxed mb-4 reveal reveal-delay-2">
+        I'm a full-stack developer and UI/UX designer with a passion for crafting experiences
+        that are as beautiful as they are functional. With 5+ years in the industry, I specialize
+        in building modern web applications.
+      </p>
+      <p class="text-gray-500 dark:text-gray-400 leading-relaxed mb-8 reveal reveal-delay-2">
+        I've had the privilege of working with startups, agencies, and Fortune 500 companies —
+        delivering projects that are fast, accessible, and conversion-focused.
+      </p>
+      <div class="grid grid-cols-3 gap-4 reveal reveal-delay-3">
+        <div class="stat-card">
+          <p class="font-display font-bold text-2xl" style="color:#F7B733">5+</p>
+          <p class="text-xs text-gray-500 mt-1">Years Exp.</p>
+        </div>
+        <div class="stat-card">
+          <p class="font-display font-bold text-2xl" style="color:#F7B733">80+</p>
+          <p class="text-xs text-gray-500 mt-1">Projects</p>
+        </div>
+        <div class="stat-card">
+          <p class="font-display font-bold text-2xl" style="color:#F7B733">12+</p>
+          <p class="text-xs text-gray-500 mt-1">Awards</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+     SKILLS
+══════════════════════════════════ -->
+<section id="skills"
+         class="py-20 border-y border-gray-100 dark:border-[#1e1e1e]"
+         style="background: rgba(255,255,255,0.45);">
+  <div class="dark:bg-[#111]/30"><!-- dark wrapper -->
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-12">
+        <p class="section-label mx-auto mb-4 reveal">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          Tech Stack
+        </p>
+        <h2 class="font-display font-bold text-3xl reveal reveal-delay-1">What I work with</h2>
+      </div>
+      <div class="flex flex-wrap justify-center gap-3 reveal reveal-delay-2">
+        <span class="skill-pill">React</span>
+        <span class="skill-pill">TypeScript</span>
+        <span class="skill-pill">Next.js</span>
+        <span class="skill-pill">Node.js</span>
+        <span class="skill-pill">Tailwind CSS</span>
+        <span class="skill-pill">PostgreSQL</span>
+        <span class="skill-pill">MongoDB</span>
+        <span class="skill-pill">Docker</span>
+        <span class="skill-pill">Figma</span>
+        <span class="skill-pill">Python</span>
+        <span class="skill-pill">AWS</span>
+        <span class="skill-pill">GraphQL</span>
+        <span class="skill-pill">Three.js</span>
+        <span class="skill-pill">Git</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     ACHIEVEMENTS SECTION  ← MAIN FOCUS
+══════════════════════════════════════════════════════════ -->
+<section id="achievements" class="py-28 max-w-6xl mx-auto px-6">
+
+  <!-- Section header -->
+  <div class="text-center mb-16">
+    <p class="section-label mx-auto mb-5 reveal">
+      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+      Recognition &amp; Honors
+    </p>
+    <h2 class="font-display font-bold text-4xl sm:text-5xl mb-4 reveal reveal-delay-1">
+      Achievements that
+      <span class="shimmer-text">define the journey</span>
+    </h2>
+    <p class="text-gray-500 dark:text-gray-400 max-w-xl mx-auto reveal reveal-delay-2">
+      A curated collection of awards, certifications, and recognitions earned through
+      dedication, craft, and a relentless pursuit of excellence.
+    </p>
+  </div>
+
+  <!-- Filter tabs -->
+  <div class="flex flex-wrap justify-center gap-2 mb-12 reveal">
+    <button data-filter="all"
+            class="filter-btn active px-5 py-2 rounded-full text-sm font-semibold
+                   border border-transparent transition-all hover:scale-105">
+      All
+    </button>
+    <button data-filter="Award"
+            class="filter-btn px-5 py-2 rounded-full text-sm font-semibold
+                   bg-white dark:bg-[#111] border border-gray-200 dark:border-[#1e1e1e]
+                   text-gray-600 dark:text-gray-400 hover:border-[#F7B733] hover:text-[#F7B733]
+                   transition-all hover:scale-105">
+      🏆 Awards
+    </button>
+    <button data-filter="Certification"
+            class="filter-btn px-5 py-2 rounded-full text-sm font-semibold
+                   bg-white dark:bg-[#111] border border-gray-200 dark:border-[#1e1e1e]
+                   text-gray-600 dark:text-gray-400 hover:border-[#F7B733] hover:text-[#F7B733]
+                   transition-all hover:scale-105">
+      📜 Certifications
+    </button>
+    <button data-filter="Recognition"
+            class="filter-btn px-5 py-2 rounded-full text-sm font-semibold
+                   bg-white dark:bg-[#111] border border-gray-200 dark:border-[#1e1e1e]
+                   text-gray-600 dark:text-gray-400 hover:border-[#F7B733] hover:text-[#F7B733]
+                   transition-all hover:scale-105">
+      ⭐ Recognition
+    </button>
+    <button data-filter="Hackathon"
+            class="filter-btn px-5 py-2 rounded-full text-sm font-semibold
+                   bg-white dark:bg-[#111] border border-gray-200 dark:border-[#1e1e1e]
+                   text-gray-600 dark:text-gray-400 hover:border-[#F7B733] hover:text-[#F7B733]
+                   transition-all hover:scale-105">
+      🚀 Hackathons
+    </button>
+  </div>
+
+  <!-- Bento achievement grid -->
+  <div id="achievementGrid"
+       class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 auto-rows-auto">
+    <!-- Cards injected by JavaScript -->
+  </div>
+
+  <!-- Empty state -->
+  <div id="noResults" class="text-center py-16 text-gray-400 dark:text-gray-600">
+    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+         class="mx-auto mb-4 opacity-30">
+      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      <line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/>
+    </svg>
+    <p class="text-lg font-medium">No achievements in this category yet.</p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+     PROJECTS
+══════════════════════════════════ -->
+<section id="projects"
+         class="py-28 border-y border-gray-100 dark:border-[#1e1e1e]"
+         style="background: rgba(255,255,255,0.4);">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-14">
+      <p class="section-label mx-auto mb-4 reveal">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        Selected Work
+      </p>
+      <h2 class="font-display font-bold text-4xl mb-3 reveal reveal-delay-1">Projects I'm proud of</h2>
+      <p class="text-gray-500 dark:text-gray-400 reveal reveal-delay-2">Thoughtfully crafted products that solve real problems.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Project 1 -->
+      <div class="project-card reveal">
+        <div class="h-48 overflow-hidden"
+             style="background: linear-gradient(135deg, #FFF8E7, #FDEDC1);">
+          <div class="w-full h-full flex items-center justify-center">
+            <div class="text-center">
+              <div class="text-4xl mb-2">💰</div>
+              <div class="text-sm font-semibold text-amber-700">FinTrack Pro</div>
+            </div>
+          </div>
+        </div>
+        <div class="p-5">
+          <div class="flex items-center justify-between mb-2">
+            <span class="type-badge bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800">Web App</span>
+            <span class="text-xs text-gray-400">2024</span>
+          </div>
+          <h3 class="font-display font-bold text-lg mb-1">FinTrack Pro</h3>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 line-clamp-2">Personal finance tracker with AI insights, real-time dashboards, and bank-level security.</p>
+          <div class="flex gap-3">
+            <a href="#" class="text-xs font-semibold flex items-center gap-1 hover:opacity-75 transition-opacity" style="color:#F7B733">
+              Live Demo
+              <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+            <span class="text-gray-200 dark:text-gray-700">·</span>
+            <a href="#" class="text-xs font-semibold text-gray-500 flex items-center gap-1 hover:text-gray-900 dark:hover:text-white transition-colors">
+              GitHub
+              <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 2 -->
+      <div class="project-card reveal reveal-delay-1">
+        <div class="h-48 overflow-hidden"
+             style="background: linear-gradient(135deg, #EEF2FF, #E0E7FF);">
+          <div class="w-full h-full flex items-center justify-center">
+            <div class="text-center">
+              <div class="text-4xl mb-2">🤝</div>
+              <div class="text-sm font-semibold text-indigo-700">CollabSpace</div>
+            </div>
+          </div>
+        </div>
+        <div class="p-5">
+          <div class="flex items-center justify-between mb-2">
+            <span class="type-badge bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800">SaaS</span>
+            <span class="text-xs text-gray-400">2024</span>
+          </div>
+          <h3 class="font-display font-bold text-lg mb-1">CollabSpace</h3>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 line-clamp-2">Real-time collaborative workspace with AI-powered meeting summaries and task management.</p>
+          <div class="flex gap-3">
+            <a href="#" class="text-xs font-semibold flex items-center gap-1 hover:opacity-75 transition-opacity" style="color:#F7B733">
+              Live Demo
+              <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+            <span class="text-gray-200 dark:text-gray-700">·</span>
+            <a href="#" class="text-xs font-semibold text-gray-500 flex items-center gap-1 hover:text-gray-900 dark:hover:text-white transition-colors">
+              GitHub
+              <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 3 -->
+      <div class="project-card reveal reveal-delay-2">
+        <div class="h-48 overflow-hidden"
+             style="background: linear-gradient(135deg, #ECFDF5, #D1FAE5);">
+          <div class="w-full h-full flex items-center justify-center">
+            <div class="text-center">
+              <div class="text-4xl mb-2">🌿</div>
+              <div class="text-sm font-semibold text-emerald-700">GreenRoute</div>
+            </div>
+          </div>
+        </div>
+        <div class="p-5">
+          <div class="flex items-center justify-between mb-2">
+            <span class="type-badge bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">Mobile</span>
+            <span class="text-xs text-gray-400">2023</span>
+          </div>
+          <h3 class="font-display font-bold text-lg mb-1">GreenRoute</h3>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 line-clamp-2">Eco-friendly navigation app optimizing routes for minimal carbon footprint with EV charging integration.</p>
+          <div class="flex gap-3">
+            <a href="#" class="text-xs font-semibold flex items-center gap-1 hover:opacity-75 transition-opacity" style="color:#F7B733">
+              Live Demo
+              <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+            <span class="text-gray-200 dark:text-gray-700">·</span>
+            <a href="#" class="text-xs font-semibold text-gray-500 flex items-center gap-1 hover:text-gray-900 dark:hover:text-white transition-colors">
+              GitHub
+              <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+     CONTACT
+══════════════════════════════════ -->
+<section id="contact" class="py-28 max-w-3xl mx-auto px-6 text-center">
+  <p class="section-label mx-auto mb-5 reveal">
+    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    Get In Touch
+  </p>
+  <h2 class="font-display font-bold text-4xl mb-5 reveal reveal-delay-1">
+    Let's build something<br />
+    <span style="color:#F7B733">remarkable together.</span>
+  </h2>
+  <p class="text-gray-500 dark:text-gray-400 mb-10 reveal reveal-delay-2">
+    Whether you have a project in mind, an opportunity to share, or just want to say hello —
+    my inbox is always open.
+  </p>
+  <div class="flex flex-col sm:flex-row gap-4 justify-center reveal reveal-delay-3">
+    <a href="mailto:arjun@example.com"
+       class="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full
+              font-semibold text-white transition-all hover:scale-105"
+       style="background:#F7B733; box-shadow: 0 6px 20px rgba(247,183,51,0.4)">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Say Hello
+    </a>
+    <a href="#"
+       class="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full
+              bg-white dark:bg-[#111] border border-gray-200 dark:border-[#1e1e1e]
+              font-semibold hover:border-[#F7B733] transition-all hover:scale-105 shadow-sm">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Download CV
+    </a>
+  </div>
+
+  <!-- Social links -->
+  <div class="flex justify-center gap-4 mt-12 reveal reveal-delay-4">
+    <a href="#" class="social-btn" aria-label="GitHub">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+    </a>
+    <a href="#" class="social-btn" aria-label="LinkedIn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+    </a>
+    <a href="#" class="social-btn" aria-label="Twitter">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+    </a>
+    <a href="#" class="social-btn" aria-label="Dribbble">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"/></svg>
+    </a>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+     FOOTER
+══════════════════════════════════ -->
+<footer class="border-t border-gray-100 dark:border-[#1e1e1e] py-8">
+  <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4
+              text-sm text-gray-400">
+    <p>© 2025 <span style="color:#F7B733" class="font-semibold">Arjun Nepal</span>. Crafted with care.</p>
+    <p class="flex items-center gap-2">
+      Built with <span style="color:#F7B733">♥</span> using Tailwind CSS &amp; Vanilla JS
+    </p>
+  </div>
+</footer>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════════════════════ -->
+<script>
+/* ════════════════════════════════════════════════════════
+   ACHIEVEMENT DATA
+   Each item follows the schema:
+   { id, title, achievement_type, issuer, short_description,
+     images[], date_awarded, links[], is_featured, typeColor{}, icon }
+
+   images[] items can be:
+     - A string URL → rendered as <img>
+     - An object { bg, emoji, label } → rendered as a styled placeholder div
+       (replace with real image URL string once you have the assets)
+════════════════════════════════════════════════════════ */
+const achievements = [
+  {
+    id: 1,
+    title: 'Google Developer Expert',
+    achievement_type: 'Recognition',
+    issuer: 'Google',
+    short_description:
+      'Recognized as a Google Developer Expert in Web Technologies for contributions to the developer community and open-source ecosystem.',
+    images: [
+      /* Replace with real image URL, e.g.: 'images/gde-certificate.jpg' */
+      { bg: 'linear-gradient(135deg,#F7B733,#D4920A)', emoji: '🌐', label: 'GDE Certificate' },
+      { bg: '#1a1a2e', emoji: '🎤', label: 'Award Ceremony' },
+    ],
+    date_awarded: 'Jan 2024',
+    links: [
+      { label: 'GDE Profile',   url: '#' },
+      { label: 'Announcement',  url: '#' },
+    ],
+    is_featured: true,
+    typeColor: {
+      bg: '#f3f0ff', text: '#6d28d9', border: '#ddd6fe',
+      darkBg: 'rgba(109,40,217,0.15)', darkText: '#a78bfa', darkBorder: 'rgba(109,40,217,0.4)',
+    },
+    icon: '🌐',
+  },
+  {
+    id: 2,
+    title: 'Hackathon 1st Place — NASA Space Apps',
+    achievement_type: 'Hackathon',
+    issuer: 'NASA',
+    short_description:
+      'Won first place out of 1,400+ global teams by building an AI-powered satellite imagery analysis tool for wildfire prediction.',
+    images: [
+      { bg: 'linear-gradient(135deg,#0f172a,#1e3a5f)', emoji: '🚀', label: '1st Place — Global Winner' },
+    ],
+    date_awarded: 'Oct 2023',
+    links: [
+      { label: 'Project Page', url: '#' },
+    ],
+    is_featured: true,
+    typeColor: {
+      bg: '#eff6ff', text: '#1d4ed8', border: '#bfdbfe',
+      darkBg: 'rgba(29,78,216,0.15)', darkText: '#93c5fd', darkBorder: 'rgba(29,78,216,0.4)',
+    },
+    icon: '🚀',
+  },
+  {
+    id: 3,
+    title: 'AWS Certified Solutions Architect',
+    achievement_type: 'Certification',
+    issuer: 'Amazon Web Services',
+    short_description:
+      'Professional-level certification validating expertise in designing distributed systems and cloud architecture on AWS.',
+    images: [
+      { bg: 'linear-gradient(135deg,#FF9900,#e07b00)', emoji: '☁️', label: 'AWS Certified' },
+    ],
+    date_awarded: 'Jun 2023',
+    links: [
+      { label: 'Verify Cert.', url: '#' },
+      { label: 'Badge',        url: '#' },
+    ],
+    is_featured: false,
+    typeColor: {
+      bg: '#fff7ed', text: '#c2410c', border: '#fed7aa',
+      darkBg: 'rgba(194,65,12,0.15)', darkText: '#fb923c', darkBorder: 'rgba(194,65,12,0.4)',
+    },
+    icon: '☁️',
+  },
+  {
+    id: 4,
+    title: 'Best UI Design — Dribbble Awards',
+    achievement_type: 'Award',
+    issuer: 'Dribbble',
+    short_description:
+      "Received the Dribbble Community Award for outstanding UI design in the 'Product Design' category for the CollabSpace dashboard.",
+    images: [
+      { bg: 'linear-gradient(135deg,#ea4c89,#c23474)', emoji: '🎨', label: 'Dribbble Award' },
+    ],
+    date_awarded: 'Mar 2023',
+    links: [
+      { label: 'View Shot', url: '#' },
+    ],
+    is_featured: false,
+    typeColor: {
+      bg: '#fdf2f8', text: '#be185d', border: '#fbcfe8',
+      darkBg: 'rgba(190,24,93,0.15)', darkText: '#f9a8d4', darkBorder: 'rgba(190,24,93,0.4)',
+    },
+    icon: '🎨',
+  },
+  {
+    id: 5,
+    title: 'Meta Front-End Developer Certificate',
+    achievement_type: 'Certification',
+    issuer: 'Meta / Coursera',
+    short_description:
+      'Completed the professional certificate covering advanced React, accessibility, performance optimization, and UX principles.',
+    images: [
+      { bg: 'linear-gradient(135deg,#1877f2,#0a5dc2)', emoji: '📜', label: 'Meta Certificate' },
+    ],
+    date_awarded: 'Aug 2022',
+    links: [
+      { label: 'Certificate', url: '#' },
+    ],
+    is_featured: false,
+    typeColor: {
+      bg: '#eef2ff', text: '#4338ca', border: '#c7d2fe',
+      darkBg: 'rgba(67,56,202,0.15)', darkText: '#a5b4fc', darkBorder: 'rgba(67,56,202,0.4)',
+    },
+    icon: '📜',
+  },
+  {
+    id: 6,
+    title: 'Forbes 30 Under 30 Nominee',
+    achievement_type: 'Recognition',
+    issuer: 'Forbes',
+    short_description:
+      'Nominated in the Forbes 30 Under 30 Technology category for building GreenRoute, reaching 200K+ users within 6 months.',
+    images: [
+      { bg: '#141414', emoji: '⭐', label: 'Forbes Nominee' },
+      { bg: 'linear-gradient(135deg,#F7B733,#FFD97D)', emoji: '📰', label: 'Media Feature' },
+    ],
+    date_awarded: 'Nov 2023',
+    links: [
+      { label: 'Forbes Feature', url: '#' },
+      { label: 'App Store',      url: '#' },
+    ],
+    is_featured: true,
+    typeColor: {
+      bg: '#fefce8', text: '#a16207', border: '#fde68a',
+      darkBg: 'rgba(161,98,7,0.15)', darkText: '#fbbf24', darkBorder: 'rgba(161,98,7,0.4)',
+    },
+    icon: '⭐',
+  },
+  {
+    id: 7,
+    title: 'MLH Top Hack — HackMIT',
+    achievement_type: 'Hackathon',
+    issuer: 'MIT / MLH',
+    short_description:
+      'Built an accessible screen reader powered by LLMs in 24 hours, winning the Best Accessibility Hack prize at HackMIT.',
+    images: [
+      { bg: 'linear-gradient(135deg,#750014,#a00020)', emoji: '💻', label: 'HackMIT Winner' },
+    ],
+    date_awarded: 'Sep 2022',
+    links: [
+      { label: 'Devpost', url: '#' },
+    ],
+    is_featured: false,
+    typeColor: {
+      bg: '#fff1f2', text: '#be123c', border: '#fecdd3',
+      darkBg: 'rgba(190,18,60,0.15)', darkText: '#fda4af', darkBorder: 'rgba(190,18,60,0.4)',
+    },
+    icon: '💻',
+  },
+  {
+    id: 8,
+    title: 'Open Source Contributor of the Year',
+    achievement_type: 'Award',
+    issuer: 'GitHub / Open Source Initiative',
+    short_description:
+      'Awarded for significant contributions to open-source projects, including 4 merged PRs to React core and maintaining 3 popular npm packages.',
+    images: [
+      { bg: 'linear-gradient(135deg,#24292e,#404040)', emoji: '🌟', label: 'Open Source Award' },
+    ],
+    date_awarded: 'Dec 2022',
+    links: [
+      { label: 'GitHub Profile', url: '#' },
+      { label: 'Announcement',   url: '#' },
+    ],
+    is_featured: false,
+    typeColor: {
+      bg: '#f9fafb', text: '#374151', border: '#e5e7eb',
+      darkBg: 'rgba(55,65,81,0.3)', darkText: '#9ca3af', darkBorder: 'rgba(55,65,81,0.5)',
+    },
+    icon: '🌟',
+  },
+];
+
+/* ════════════════════════════════════════════════════════
+   RENDER ACHIEVEMENT CARDS
+════════════════════════════════════════════════════════ */
+
+/**
+ * Build one image cell.
+ * @param {string|{bg:string,emoji:string,label:string}} imgData
+ * @param {string} alt
+ * @returns {HTMLElement}
+ */
+function buildImageCell(imgData, alt) {
+  if (typeof imgData === 'string') {
+    const img = document.createElement('img');
+    img.src     = imgData;
+    img.alt     = alt;
+    img.loading = 'lazy';
+    img.style.cssText = 'width:100%;height:100%;object-fit:cover;transition:transform 0.5s ease;';
+    return img;
+  }
+  /* Placeholder div */
+  const div = document.createElement('div');
+  div.style.cssText =
+    `width:100%;height:100%;background:${imgData.bg};` +
+    'display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;';
+  const emoji = document.createElement('span');
+  emoji.style.cssText = 'font-size:2.2rem;line-height:1;';
+  emoji.textContent   = imgData.emoji;
+  const lbl = document.createElement('span');
+  lbl.style.cssText =
+    'font-size:0.75rem;font-weight:700;color:rgba(255,255,255,0.92);' +
+    'letter-spacing:0.03em;text-align:center;padding:0 6px;';
+  lbl.textContent = imgData.label;
+  div.appendChild(emoji);
+  div.appendChild(lbl);
+  return div;
+}
+
+function renderAchievements(filter) {
+  const grid     = document.getElementById('achievementGrid');
+  const noResult = document.getElementById('noResults');
+  const filtered = filter === 'all'
+    ? achievements
+    : achievements.filter(a => a.achievement_type === filter);
+
+  grid.innerHTML = '';
+
+  if (!filtered.length) {
+    noResult.classList.add('show');
+    return;
+  }
+  noResult.classList.remove('show');
+
+  const isDark = document.documentElement.classList.contains('dark');
+
+  filtered.forEach((ach, idx) => {
+    const hasTwoImgs = ach.images.length >= 2;
+    const featured   = ach.is_featured;
+    const delay      = ['', 'reveal-delay-1', 'reveal-delay-2', 'reveal-delay-3'][idx % 4];
+    const tc         = ach.typeColor;
+
+    const card = document.createElement('div');
+    card.className    = `ach-card reveal ${delay} ${featured ? 'featured' : ''}`;
+    card.dataset.type = ach.achievement_type;
+
+    /* Badge colors */
+    const badgeBg     = isDark ? tc.darkBg     : tc.bg;
+    const badgeText   = isDark ? tc.darkText   : tc.text;
+    const badgeBorder = isDark ? tc.darkBorder : tc.border;
+    const textColor   = isDark ? '#f9fafb' : '#111827';
+    const descColor   = isDark ? '#9ca3af' : '#6b7280';
+
+    /* ── Accent bar ── */
+    const bar = document.createElement('div');
+    bar.className = 'accent-bar';
+    card.appendChild(bar);
+
+    /* ── Image gallery ── */
+    const imgWrap = document.createElement('div');
+    imgWrap.style.cssText = 'padding:18px 18px 0;';
+    const imgGrid = document.createElement('div');
+    imgGrid.className = `ach-images ${hasTwoImgs ? 'two-img' : 'one-img'}`;
+    imgGrid.style.cssText =
+      `height:${hasTwoImgs ? '136px' : '156px'};border-radius:12px;overflow:hidden;`;
+    ach.images.forEach(imgData => {
+      imgGrid.appendChild(buildImageCell(imgData, ach.title));
+    });
+    imgWrap.appendChild(imgGrid);
+    card.appendChild(imgWrap);
+
+    /* ── Card body (HTML is safe — no user content injected) ── */
+    const body = document.createElement('div');
+    body.style.cssText = 'padding:16px 18px 18px 22px;position:relative;z-index:10;';
+
+    /* top row */
+    const topRow = document.createElement('div');
+    topRow.style.cssText =
+      'display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;';
+
+    const badge = document.createElement('span');
+    badge.className = 'type-badge';
+    badge.style.cssText =
+      `background:${badgeBg};color:${badgeText};border:1px solid ${badgeBorder};`;
+    badge.textContent = `${ach.icon} ${ach.achievement_type}`;
+    topRow.appendChild(badge);
+
+    const dateSpan = document.createElement('span');
+    dateSpan.style.cssText =
+      'font-size:0.7rem;color:#9ca3af;display:flex;align-items:center;gap:4px;';
+    dateSpan.innerHTML =
+      '<svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24"' +
+      ' fill="none" stroke="currentColor" stroke-width="2"' +
+      ' stroke-linecap="round" stroke-linejoin="round">' +
+      '<rect x="3" y="4" width="18" height="18" rx="2"/>' +
+      '<line x1="16" y1="2" x2="16" y2="6"/>' +
+      '<line x1="8" y1="2" x2="8" y2="6"/>' +
+      '<line x1="3" y1="10" x2="21" y2="10"/></svg>';
+    dateSpan.appendChild(document.createTextNode(ach.date_awarded));
+    topRow.appendChild(dateSpan);
+    body.appendChild(topRow);
+
+    /* featured badge */
+    if (featured) {
+      const fb = document.createElement('div');
+      fb.style.cssText =
+        'display:inline-flex;align-items:center;gap:5px;margin-bottom:8px;' +
+        'padding:3px 10px;border-radius:6px;' +
+        'background:linear-gradient(90deg,rgba(247,183,51,0.12),rgba(255,217,125,0.15));' +
+        'border:1px solid rgba(247,183,51,0.35);';
+      fb.innerHTML =
+        '<svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24"' +
+        ' fill="#F7B733" stroke="none">' +
+        '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>' +
+        '</svg>';
+      const ft = document.createElement('span');
+      ft.style.cssText =
+        'font-size:0.7rem;font-weight:700;color:#F7B733;letter-spacing:0.05em;';
+      ft.textContent = 'Featured Achievement';
+      fb.appendChild(ft);
+      body.appendChild(fb);
+    }
+
+    /* title */
+    const title = document.createElement('h3');
+    title.style.cssText =
+      `font-family:'Sora',system-ui,sans-serif;font-weight:700;` +
+      `font-size:${featured ? '1.15rem' : '1.05rem'};line-height:1.35;` +
+      `color:${textColor};margin-bottom:4px;`;
+    title.textContent = ach.title;
+    body.appendChild(title);
+
+    /* issuer */
+    const issuer = document.createElement('p');
+    issuer.style.cssText =
+      'font-size:0.72rem;font-weight:600;color:#F7B733;margin-bottom:10px;' +
+      'display:flex;align-items:center;gap:4px;';
+    issuer.innerHTML =
+      '<svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24"' +
+      ' fill="none" stroke="currentColor" stroke-width="2.5"' +
+      ' stroke-linecap="round" stroke-linejoin="round">' +
+      '<circle cx="12" cy="12" r="10"/>' +
+      '<line x1="12" y1="8" x2="12" y2="12"/>' +
+      '<line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+    issuer.appendChild(document.createTextNode('Issued by ' + ach.issuer));
+    body.appendChild(issuer);
+
+    /* description */
+    const desc = document.createElement('p');
+    desc.style.cssText =
+      `font-size:0.85rem;color:${descColor};line-height:1.6;margin-bottom:14px;`;
+    desc.textContent = ach.short_description;
+    body.appendChild(desc);
+
+    /* links */
+    const linksWrap = document.createElement('div');
+    linksWrap.style.cssText = 'display:flex;flex-wrap:wrap;gap:7px;';
+    ach.links.forEach((link, li) => {
+      const a = document.createElement('a');
+      a.href = link.url;
+      const isPrimary = li === 0;
+      a.style.cssText =
+        (isPrimary
+          ? 'background:#F7B733;color:white;border:none;'
+          : `background:transparent;color:${isDark ? '#9ca3af' : '#6b7280'};` +
+            `border:1px solid ${isDark ? '#2a2a2a' : '#e5e7eb'};`) +
+        'display:inline-flex;align-items:center;gap:6px;' +
+        'padding:5px 12px;border-radius:8px;font-size:0.73rem;font-weight:600;' +
+        'text-decoration:none;transition:transform 0.18s,opacity 0.18s;';
+      a.addEventListener('mouseover', () => {
+        a.style.opacity   = '0.85';
+        a.style.transform = 'scale(1.04)';
+      });
+      a.addEventListener('mouseout', () => {
+        a.style.opacity   = '1';
+        a.style.transform = 'scale(1)';
+      });
+      a.innerHTML =
+        '<svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24"' +
+        ' fill="none" stroke="currentColor" stroke-width="2.5"' +
+        ' stroke-linecap="round" stroke-linejoin="round">' +
+        '<path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>' +
+        '<polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>';
+      a.appendChild(document.createTextNode(link.label));
+      linksWrap.appendChild(a);
+    });
+    body.appendChild(linksWrap);
+
+    card.appendChild(body);
+    grid.appendChild(card);
+  });
+
+  /* Re-observe newly added cards for scroll-reveal */
+  initReveal();
+}
+
+/* ════════════════════════════════════════════════════════
+   FILTER BUTTONS
+════════════════════════════════════════════════════════ */
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => {
+      b.classList.remove('active');
+      b.style.background = '';
+      b.style.color      = '';
+      b.style.border     = '';
+    });
+    btn.classList.add('active');
+    renderAchievements(btn.dataset.filter);
+  });
+});
+
+/* ════════════════════════════════════════════════════════
+   DARK MODE TOGGLE
+════════════════════════════════════════════════════════ */
+(function initDarkMode() {
+  const html = document.documentElement;
+  let storedTheme;
+  try { storedTheme = localStorage.getItem('theme'); } catch (_) { storedTheme = null; }
+  if (storedTheme === 'dark' ||
+      (storedTheme === null && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    html.classList.add('dark');
+  }
+  document.getElementById('darkToggle').addEventListener('click', () => {
+    html.classList.toggle('dark');
+    const isDark = html.classList.contains('dark');
+    try { localStorage.setItem('theme', isDark ? 'dark' : 'light'); } catch (_) {}
+    /* Re-render cards to update inline dark colors */
+    const activeFilter = document.querySelector('.filter-btn.active');
+    if (activeFilter) renderAchievements(activeFilter.dataset.filter);
+  });
+})();
+
+/* ════════════════════════════════════════════════════════
+   STICKY NAV — glassmorphism on scroll, respects theme
+════════════════════════════════════════════════════════ */
+const mainNav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 60) {
+    const isDark = document.documentElement.classList.contains('dark');
+    const bgColor = isDark ? 'rgba(10,10,10,0.82)' : 'rgba(255,248,240,0.82)';
+    mainNav.style.cssText =
+      `background:${bgColor};backdrop-filter:blur(18px);` +
+      'box-shadow:0 1px 0 rgba(0,0,0,0.06);';
+  } else {
+    mainNav.style.cssText = '';
+  }
+}, { passive: true });
+
+/* ════════════════════════════════════════════════════════
+   SCROLL REVEAL
+════════════════════════════════════════════════════════ */
+function initReveal() {
+  const els = document.querySelectorAll('.reveal:not(.visible)');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+  els.forEach(el => obs.observe(el));
+}
+
+/* ════════════════════════════════════════════════════════
+   ACTIVE NAV HIGHLIGHT
+════════════════════════════════════════════════════════ */
+function updateActiveNav() {
+  const scrollY = window.scrollY + 130;
+  document.querySelectorAll('section[id]').forEach(sec => {
+    const link = document.querySelector(`nav a[href="#${sec.id}"]`);
+    if (!link) return;
+    const inView = scrollY >= sec.offsetTop && scrollY < sec.offsetTop + sec.offsetHeight;
+    link.style.color = inView ? '#F7B733' : '';
+  });
+}
+window.addEventListener('scroll', updateActiveNav, { passive: true });
+
+/* ════════════════════════════════════════════════════════
+   INIT
+════════════════════════════════════════════════════════ */
+renderAchievements('all');
+initReveal();
+</script>
+</body>
+</html>
